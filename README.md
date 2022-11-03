@@ -1,4 +1,4 @@
-# Pandas_Cheatlist_Шпаргалки по пандас(Русский перевод снизу) @Zelmaker
+# Pandas_Cheatlist_Шпаргалка по pandas(пандас) @Zelmaker
 ## Creating, Reading and Writing
 ### DateFrame Creating
 import pandas as pd
@@ -221,3 +221,35 @@ sort_values() defaults to an ascending sort, where the lowest values go first. H
 ##### countries_reviewed.sort_values(by='len', ascending=False)
 To sort by index values, use the companion method sort_index(). This method has the same arguments and default order:
 ##### countries_reviewed.sort_index()
+## Data Types and Missing Values
+
+
+
+What are the most common wine-producing regions? Create a Series counting the number of times each value occurs in the region_1 field. This field is often missing data, so replace missing values with Unknown. Sort in descending order. Your output should look something like this:
+##### reviews_per_region = reviews.region_1.fillna('Unknown').value_counts().sort_values(ascending=False)
+
+
+## Renaming and Combining
+### Renaming
+The first function we'll introduce here is rename(), which lets you change index names and/or column names. For example, to change the points column in our dataset to score, we would do:
+##### reviews.rename(columns={'points': 'score'})
+Here is an example using it to rename some elements of the index.
+##### reviews.rename(index={0: 'firstEntry', 1: 'secondEntry'})
+Both the row index and the column index can have their own name attribute. The complimentary rename_axis() method may be used to change these names. For example:
+##### reviews.rename_axis("wines", axis='rows').rename_axis("fields", axis='columns')
+### Combining
+When performing operations on a dataset, we will sometimes need to combine different DataFrames and/or Series in non-trivial ways. Pandas has three core methods for doing this. In order of increasing complexity, these are concat(), join(), and merge(). Most of what merge() can do can also be done more simply with join(), so we will omit it and focus on the first two functions here.
+
+The simplest combining method is concat(). Given a list of elements, this function will smush those elements together along an axis.
+
+This is useful when we have data in different DataFrame or Series objects but having the same fields (columns). One example: the YouTube Videos dataset, which splits the data up based on country of origin (e.g. Canada and the UK, in this example). If we want to study multiple countries simultaneously, we can use concat() to smush them together:
+##### canadian_youtube = pd.read_csv("../input/youtube-new/CAvideos.csv")
+##### british_youtube = pd.read_csv("../input/youtube-new/GBvideos.csv")
+##### pd.concat([canadian_youtube, british_youtube])
+The middlemost combiner in terms of complexity is join(). join() lets you combine different DataFrame objects which have an index in common. For example, to pull down videos that happened to be trending on the same day in both Canada and the UK, we could do the following:
+
+##### left = canadian_youtube.set_index(['title', 'trending_date'])
+##### right = british_youtube.set_index(['title', 'trending_date'])
+
+##### left.join(right, lsuffix='_CAN', rsuffix='_UK')
+The lsuffix and rsuffix parameters are necessary here because the data has the same column names in both British and Canadian datasets. If this wasn't true (because, say, we'd renamed them beforehand) we wouldn't need them.
