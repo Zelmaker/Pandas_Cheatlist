@@ -36,6 +36,23 @@ We can use the shape attribute to check how large the resulting DataFrame is:
 head() command, which grabs the first five rows:
 ##### wine_reviews.head()
 
+##### Usefull
+df.info()
+df.dtypes()
+df.describe()
+Для того чтобы подсчитать количество значений в конкретном столбце, можно воспользоваться следующей конструкцией:
+df.type.value_counts()
+##### Создание списка или объекта Series на основе значений столбца
+Это может пригодиться в тех случаях, когда требуется извлекать значения столбцов в переменные x и y для обучения модели. Здесь применимы следующие команды:
+anime['genre'].tolist()
+anime['genre']
+##### Получение списка значений из индекса
+df.index.tolist()
+
+##### Получение списка значений столбцов
+Вот команда, которая позволяет получить список значений столбцов:
+anime.columns.tolist()
+
 ### Write CSV
 save this DataFrame to disk as a csv file with the name cows_and_goats.csv.
 ##### animals.to_csv("cows_and_goats.csv")
