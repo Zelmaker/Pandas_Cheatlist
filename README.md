@@ -270,3 +270,26 @@ The middlemost combiner in terms of complexity is join(). join() lets you combin
 
 ##### left.join(right, lsuffix='_CAN', rsuffix='_UK')
 The lsuffix and rsuffix parameters are necessary here because the data has the same column names in both British and Canadian datasets. If this wasn't true (because, say, we'd renamed them beforehand) we wouldn't need them.
+
+
+store_sales = pd.read_csv(
+    comp_dir / 'train.csv',
+    usecols=['store_nbr', 'family', 'date', 'sales', 'onpromotion'],
+    dtype={
+        'store_nbr': 'category',
+        'family': 'category',
+        'sales': 'float32',
+    },
+    parse_dates=['date'],
+    infer_datetime_format=True,
+)
+store_sales['date'] = store_sales.date.dt.to_period('D')
+store_sales = store_sales.set_index(['store_nbr', 'family', 'date']).sort_index()
+
+family_sales = (
+    store_sales
+    .groupby(['family', 'date'])
+    .mean()
+    .unstack('family')
+    .loc['2017']
+)
