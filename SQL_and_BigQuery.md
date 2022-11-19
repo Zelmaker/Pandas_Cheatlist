@@ -20,3 +20,21 @@ table_ref = dataset_ref.table("full")
 # API request - fetch the table
 table = client.get_table(table_ref)
 
+![image](https://user-images.githubusercontent.com/113107446/202863886-f820df5d-a258-4b91-a7d1-763b230a22bc.png)
+
+# Print information on all the columns in the "full" table in the "hacker_news" dataset
+
+table.schema
+
+Each SchemaField tells us about a specific column (which we also refer to as a field). In order, the information is:
+
+The name of the column
+The field type (or datatype) in the column
+The mode of the column ('NULLABLE' means that a column allows NULL values, and is the default)
+A description of the data in that column
+
+# Preview the first five lines of the "full" table
+client.list_rows(table, max_results=5).to_dataframe()
+
+# Preview the first five entries in the "by" column of the "full" table
+client.list_rows(table, selected_fields=table.schema[:1], max_results=5).to_dataframe()
