@@ -1,3 +1,13 @@
+## usefull
+To get each country only once you can run `SELECT DISTINCT country ...`. The DISTINCT keyword ensures each column shows up once, which you'll want in some cases.
+### Improved version of earlier query, now with aliasing & improved readability
+query_improved = """
+                 SELECT parent, COUNT(1) AS NumPosts
+                 FROM `bigquery-public-data.hacker_news.comments`
+                 GROUP BY parent
+                 HAVING COUNT(1) > 10
+                 """
+
 from google.cloud import bigquery
 ### Create a "Client" object
 client = bigquery.Client()
