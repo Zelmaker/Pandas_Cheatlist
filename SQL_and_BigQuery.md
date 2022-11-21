@@ -1,5 +1,21 @@
 ## usefull
 To get each country only once you can run `SELECT DISTINCT country ...`. The DISTINCT keyword ensures each column shows up once, which you'll want in some cases.
+
+![image](https://user-images.githubusercontent.com/113107446/203158596-285bd465-b6e3-46d8-84fb-0a5cc155b32b.png)
+
+![image](https://user-images.githubusercontent.com/113107446/203158737-e00637de-050b-49be-8f80-a24846b3c074.png)
+
+![image](https://user-images.githubusercontent.com/113107446/203158540-c05e49b1-16b6-49b6-a567-76535aa8cba6.png)
+
+### Query to find out the number of accidents for each day of the week
+query = """
+        SELECT COUNT(consecutive_number) AS num_accidents, 
+               EXTRACT(DAYOFWEEK FROM timestamp_of_crash) AS day_of_week
+        FROM `bigquery-public-data.nhtsa_traffic_fatalities.accident_2015`
+        GROUP BY day_of_week
+        ORDER BY num_accidents DESC
+
+
 ### Improved version of earlier query, now with aliasing & improved readability
 query_improved = """
                  SELECT parent, COUNT(1) AS NumPosts
