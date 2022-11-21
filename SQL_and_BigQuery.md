@@ -13,6 +13,8 @@ To get each country only once you can run `SELECT DISTINCT country ...`. The DIS
 
 ![image](https://user-images.githubusercontent.com/113107446/203165752-382ede6f-22a6-4545-a47e-bc62eebb0076.png)
 
+![image](https://i.imgur.com/RccsXBr.png) 
+
 ### Query to determine the number of files per license, sorted by number of files
 query = """
         SELECT L.license, COUNT(1) AS number_of_files
