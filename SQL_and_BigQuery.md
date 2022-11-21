@@ -7,6 +7,41 @@ To get each country only once you can run `SELECT DISTINCT country ...`. The DIS
 
 ![image](https://user-images.githubusercontent.com/113107446/203158540-c05e49b1-16b6-49b6-a567-76535aa8cba6.png)
 
+![image](https://user-images.githubusercontent.com/113107446/203162805-747790f0-74de-4c36-9b3f-59e466aed2a7.png)
+
+![image](https://user-images.githubusercontent.com/113107446/203162828-d4f189a4-c6be-4b63-ba99-005d8826fb21.png)
+
+![image](https://user-images.githubusercontent.com/113107446/203165752-382ede6f-22a6-4545-a47e-bc62eebb0076.png)
+
+### Query to determine the number of files per license, sorted by number of files
+query = """
+        SELECT L.license, COUNT(1) AS number_of_files
+        FROM `bigquery-public-data.github_repos.sample_files` AS sf
+        INNER JOIN `bigquery-public-data.github_repos.licenses` AS L 
+            ON sf.repo_name = L.repo_name
+        GROUP BY L.license
+        ORDER BY number_of_files DESC
+        """
+
+![image](https://user-images.githubusercontent.com/113107446/203166194-738e91fd-d5d7-4faa-ade7-529662e1b73e.png)
+
+We'll begin with the JOIN (highlighted in blue above). This specifies the sources of data and how to join them. We use ON to specify that we combine the tables by matching the values in the repo_name columns in the tables.
+
+Next, we'll talk about SELECT and GROUP BY (highlighted in yellow). The GROUP BY breaks the data into a different group for each license, before we COUNT the number of rows in the sample_files table that corresponds to each license. (Remember that you can count the number of rows with COUNT(1).)
+
+Finally, the ORDER BY (highlighted in purple) sorts the results so that licenses with more files appear first.
+
+It was a big query, but it gave us a nice table summarizing how many files have been committed under each license:
+
+# Set up the query (cancel the query if it would use too much of 
+# your quota, with the limit set to 10 GB)
+safe_config = bigquery.QueryJobConfig(maximum_bytes_billed=10**10)
+query_job = client.query(query, job_config=safe_config)
+
+# API request - run the query, and convert the results to a pandas DataFrame
+file_count_by_license = query_job.to_dataframe()
+
+
 ### Query to find out the number of accidents for each day of the week
 query = """
         SELECT COUNT(consecutive_number) AS num_accidents, 
