@@ -4,6 +4,8 @@
 
 ![image](https://user-images.githubusercontent.com/113107446/203639718-38227dce-6ed2-45a4-8da0-7fd84325f3ed.png)
 
+![image](https://i.imgur.com/G6buS7P.png)
+
 Replacing INNER JOIN in the query above with LEFT JOIN returns all rows where the two tables have matching entries, along with all of the rows in the left table (whether there is a match or not).
 
 If we instead use a RIGHT JOIN, we get the matching rows, along with all rows in the right table (whether there is a match or not).
