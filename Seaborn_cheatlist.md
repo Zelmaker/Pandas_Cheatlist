@@ -1,3 +1,6 @@
+![image](https://user-images.githubusercontent.com/113107446/203508608-817c9fdb-1064-4c4e-810a-f04de59b8f11.png)
+
+
 # Line chart showing daily global streams of each song 
 sns.lineplot(data=spotify_data)
 
